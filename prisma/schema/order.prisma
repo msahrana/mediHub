@@ -1,0 +1,17 @@
+model Order {
+  id                 String          @id @default(uuid())
+
+  customerId         String
+  customer           User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  shippingAddress    String
+
+  totalAmount        Float
+
+  status             OrderStatus     @default(PLACED)
+
+  items              OrderItem[]
+
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+}

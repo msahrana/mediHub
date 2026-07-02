@@ -1,0 +1,23 @@
+enum Role {
+  CUSTOMER
+  SELLER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+}
+
+enum MedicineStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum OrderStatus {
+  PLACED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
