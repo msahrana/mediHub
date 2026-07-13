@@ -3,7 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import config from './config';
 import cookieParser from 'cookie-parser';
-import { userRoute } from './modules/users/user.route';
+import { userRoute } from './modules/auth/user.route';
+import { notFound } from './middleware/notFound';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
 
 const app: Application = express();
 
@@ -22,6 +24,9 @@ app.get('/', (req, res) => {
     res.send('Dear Customer, Welcome Our MediHub Medicine Store!');
 });
 
-app.use('/api/users', userRoute);
+app.use('/api/auth', userRoute);
+
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;

@@ -1,10 +1,10 @@
 model Category {
-  id           String       @id @default(uuid())
-  name         String       @unique
-  description  String?
+  id            String  @id @default(uuid())
+  name          String  @unique
+  description   String?
 
-  medicines    Medicine[]
+  medicines     Medicine[]
 
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

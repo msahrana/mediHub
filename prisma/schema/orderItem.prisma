@@ -1,13 +1,13 @@
 model OrderItem {
-  id            String      @id @default(uuid())
+  id          String @id @default(uuid())
 
-  orderId       String
-  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     String
+  order       Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
-  medicineId    String
-  medicine      Medicine    @relation(fields: [medicineId], references: [id], onDelete: Restrict)
+  medicineId String
+  medicine   Medicine @relation(fields: [medicineId], references: [id], onDelete: Restrict)
 
-  quantity      Int
+  quantity    Int
 
-  price         Float
+  price       Float
 }

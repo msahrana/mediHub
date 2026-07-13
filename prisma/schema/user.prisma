@@ -1,19 +1,20 @@
 model User {
-  id           String       @id @default(uuid())
-  name         String
-  email        String       @unique
-  password     String
-  phone        String?
-  address      String?
-  image        String?
-  role         Role
-  status       UserStatus   @default(ACTIVE)
+  id        String @id @default(uuid())
 
-  medicines    Medicine[]   @relation("SellerMedicines")
-  orders       Order[]
-  reviews      Review[]
-  carts        Cart[]
+  name      String
+  email     String @unique
+  password  String
 
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  role      Role
+  status    UserStatus @default(ACTIVE)
+
+  profile   Profile?
+
+  medicines Medicine[] @relation("SellerMedicines")
+  orders    Order[]
+  reviews   Review[]
+  carts     Cart[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

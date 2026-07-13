@@ -21,3 +21,14 @@ enum OrderStatus {
   DELIVERED
   CANCELLED
 }
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  STRIPE
+}

@@ -7,9 +7,9 @@ const PORT = config.PORT;
 async function main() {
     try {
         await prisma.$connect();
-        console.log('Database Connected Successfully!!!');
+        console.log('NeonDB Database Connected Successfully!!!');
         app.listen(PORT, () => {
-            console.log(`Server is running on port: ${PORT}`);
+            console.log(`Prisma Server is running on port: ${PORT}`);
         });
     } catch (error) {
         console.error('Error is starting the server', error);

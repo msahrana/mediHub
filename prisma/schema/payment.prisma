@@ -1,0 +1,21 @@
+model Payment {
+  id                String @id @default(uuid())
+
+  orderId           String @unique
+  order             Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  amount            Float
+  currency          String @default("usd")
+
+  paymentMethod     PaymentMethod @default(STRIPE)
+  status            PaymentStatus @default(PENDING)
+
+  transactionId     String? @unique
+  paymentIntentId   String? @unique
+  checkoutSessionId String? @unique
+
+  paidAt            DateTime?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
