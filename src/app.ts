@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import config from './config';
 import cookieParser from 'cookie-parser';
-import { userRoute } from './modules/auth/user.route';
+import { userRoute } from './modules/auth/auth.route';
 import { notFound } from './middleware/notFound';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
 

@@ -6,9 +6,14 @@ export interface IRegisterUser {
     password: string;
     role: Role;
 
-    profilePhoto?: string;
-    phone?: string;
-    address?: string;
+    profile?: {
+        fullName?: string;
+        phone?: string;
+        address?: string;
+        city?: string;
+        country?: string;
+        image?: string;
+    };
 }
 
 export interface ILoginUser {

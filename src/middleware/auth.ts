@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { catchAsync } from '../utils/catchAsync';
-import { jwtUtils } from '../utils/jwt';
-import config from '../config';
-import { JwtPayload } from 'jsonwebtoken';
 import { Role } from '../../generated/prisma/enums';
+import { catchAsync } from '../utils/catchAsync';
+import { JwtPayload } from 'jsonwebtoken';
+import { jwtUtils } from '../utils/jwt';
 import { prisma } from '../lib/prisma';
+import config from '../config';
 
 declare global {
     namespace Express {
@@ -34,25 +34,25 @@ export const auth = (...requiredRoles: Role[]) => {
                 );
             }
 
-            const verifyToken = jwtUtils.verifyToken(
+            const verifiedToken = jwtUtils.verifyToken(
                 token,
                 config.JWT_ACCESS_SECRET,
             );
 
-            if (!verifyToken.success) {
-                throw new Error(verifyToken.error);
+            if (!verifiedToken.success) {
+                throw new Error(verifiedToken.error);
             }
 
-            const { name, email, role, id } = verifyToken.data as JwtPayload;
+            const { email, name, id, role } = verifiedToken.data as JwtPayload;
 
-            if (!requiredRoles.length && !requiredRoles.includes(role)) {
+            if (requiredRoles.length && !requiredRoles.includes(role)) {
                 throw new Error(
                     "Forbidden. You don't have permission to access this resource.",
                 );
             }
 
             const user = await prisma.user.findUnique({
-                where: { name, email, role, id },
+                where: { id, email, name, role },
             });
 
             if (!user) {
@@ -65,7 +65,7 @@ export const auth = (...requiredRoles: Role[]) => {
                 );
             }
 
-            req.user = { name, email, role, id };
+            req.user = { email, name, id, role };
 
             next();
         },

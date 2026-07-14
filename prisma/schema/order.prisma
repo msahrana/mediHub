@@ -1,19 +1,23 @@
 model Order {
-  id                String @id @default(uuid())
 
-  customerId        String
-  customer          User   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  id String @id @default(uuid())
 
-  shippingAddress   String
+  customerId String
 
-  totalAmount       Float
+  shippingAddress String
 
-  status            OrderStatus @default(PLACED)
+  totalPrice Float
 
-  items             OrderItem[]
+  status OrderStatus @default(PENDING)
 
-  payment           Payment?
+  customer User @relation(fields:[customerId], references:[id])
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  items OrderItem[]
+
+  payment Payment?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("Orders")
 }

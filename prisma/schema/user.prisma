@@ -1,20 +1,28 @@
 model User {
-  id        String @id @default(uuid())
+  id          String @id @default(uuid())
 
-  name      String
-  email     String @unique
-  password  String
+  name        String
+  email       String @unique
+  password    String
 
-  role      Role
-  status    UserStatus @default(ACTIVE)
+  role        Role
+  status      UserStatus @default(ACTIVE)
 
-  profile   Profile?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  medicines Medicine[] @relation("SellerMedicines")
-  orders    Order[]
-  reviews   Review[]
-  carts     Cart[]
+  profile     Profile?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  medicines   Medicine[]
+
+  cartItems   Cart[]
+
+  orders       Order[]
+  orderItems   OrderItem[]
+
+  reviews     Review[]
+
+  payments    Payment[]
+
+  @@map("Users")
 }

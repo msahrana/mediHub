@@ -1,15 +1,14 @@
-import bcrypt from 'bcryptjs';
-import { prisma } from '../../lib/prisma';
-import { ILoginUser, IRegisterUser } from './user.interface';
-import config from '../../config';
-import { jwtUtils } from '../../utils/jwt';
+import { ILoginUser, IRegisterUser } from './auth.interface';
 import { JwtPayload, SignOptions } from 'jsonwebtoken';
 import { Role } from '../../../generated/prisma/enums';
+import { jwtUtils } from '../../utils/jwt';
+import { prisma } from '../../lib/prisma';
+import config from '../../config';
+import bcrypt from 'bcryptjs';
 
 const registerUserIntoDB = async (payload: IRegisterUser) => {
     // Get user field from payload
-    const { name, email, password, profilePhoto, phone, address, role } =
-        payload;
+    const { name, email, password, role, profile } = payload;
 
     // Check if user already exists
     const isUserExist = await prisma.user.findUnique({
@@ -40,10 +39,12 @@ const registerUserIntoDB = async (payload: IRegisterUser) => {
             role,
             profile: {
                 create: {
-                    fullName: name,
-                    address,
-                    phone,
-                    image: profilePhoto,
+                    fullName: profile?.fullName || name,
+                    phone: profile?.phone,
+                    address: profile?.address,
+                    city: profile?.city,
+                    country: profile?.country,
+                    image: profile?.image,
                 },
             },
         },
@@ -71,9 +72,13 @@ const registerUserIntoDB = async (payload: IRegisterUser) => {
 const loginUserIntoDB = async (payload: ILoginUser) => {
     const { email, password } = payload;
 
-    const user = await prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUnique({
         where: { email },
     });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
 
     if (user.status === 'BANNED') {
         throw new Error(
@@ -149,9 +154,7 @@ const refreshTokenIntoDB = async (refreshToken: string) => {
 
 const getMyProfileIntoDB = async (userId: string) => {
     const userProfile = await prisma.user.findFirstOrThrow({
-        where: {
-            id: userId,
-        },
+        where: { id: userId },
         omit: {
             password: true,
         },

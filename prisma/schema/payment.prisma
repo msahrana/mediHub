@@ -1,21 +1,33 @@
 model Payment {
-  id                String @id @default(uuid())
 
-  orderId           String @unique
-  order             Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id String @id @default(uuid())
 
-  amount            Float
-  currency          String @default("usd")
+  orderId String @unique
 
-  paymentMethod     PaymentMethod @default(STRIPE)
-  status            PaymentStatus @default(PENDING)
+  userId String
 
-  transactionId     String? @unique
-  paymentIntentId   String? @unique
-  checkoutSessionId String? @unique
+  transactionId String @unique
 
-  paidAt            DateTime?
+  amount Float
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  method PaymentMethod
+
+  status PaymentStatus @default(PENDING)
+
+  paidAt DateTime?
+
+  stripeCustomerId String?
+
+  paymentIntentId String?
+
+  checkoutSessionId String?
+
+  order Order @relation(fields:[orderId], references:[id])
+
+  user User @relation(fields:[userId], references:[id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("Payments")
 }

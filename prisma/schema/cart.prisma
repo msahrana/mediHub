@@ -1,16 +1,18 @@
 model Cart {
-  id            String @id @default(uuid())
 
-  customerId    String
-  customer      User   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  id String @id @default(uuid())
 
-  medicineId    String
-  medicine      Medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  customerId String
 
-  quantity      Int @default(1)
+  medicineId String
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  quantity Int
+
+  customer User @relation(fields:[customerId], references:[id])
+
+  medicine Medicine @relation(fields:[medicineId], references:[id])
 
   @@unique([customerId, medicineId])
+
+  @@map("Cart")
 }

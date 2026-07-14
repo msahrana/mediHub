@@ -1,10 +1,13 @@
 model Category {
-  id            String  @id @default(uuid())
-  name          String  @unique
-  description   String?
 
-  medicines     Medicine[]
+  id String @id @default(uuid())
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  name String @unique
+  description String?
+
+  medicines Medicine[]
+
+  createdAt DateTime @default(now())
+
+  @@map("Categories")
 }

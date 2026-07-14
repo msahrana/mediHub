@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import HttpStatus from 'http-status';
-import { catchAsync } from '../../utils/catchAsync';
 import { sendResponse } from '../../utils/sendResponse';
-import { authService } from './user.service';
+import { catchAsync } from '../../utils/catchAsync';
+import { authService } from './auth.service';
+import HttpStatus from 'http-status';
 
 const registerUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +33,7 @@ const loginUser = catchAsync(
             maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
         });
 
-        res.cookie('refreshToken', accessToken, {
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
             sameSite: 'none',
@@ -55,7 +55,6 @@ const refreshToken = catchAsync(
 
         const { accessToken } =
             await authService.refreshTokenIntoDB(refreshToken);
-
         res.cookie('newAccessToken', accessToken, {
             httpOnly: true,
             secure: false,
@@ -66,7 +65,7 @@ const refreshToken = catchAsync(
         sendResponse(res, {
             success: true,
             statusCode: HttpStatus.OK,
-            message: 'Token refreshed is done!',
+            message: 'Token refreshed is done',
             data: { accessToken },
         });
     },
@@ -79,10 +78,10 @@ const getMyProfile = catchAsync(
         );
 
         sendResponse(res, {
-            statusCode: 200,
             success: true,
-            message: 'User profile fetched successfully!',
-            data: profile,
+            statusCode: HttpStatus.OK,
+            message: 'User profile fetched successfully',
+            data: { profile },
         });
     },
 );

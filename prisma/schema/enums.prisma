@@ -9,26 +9,21 @@ enum UserStatus {
   BANNED
 }
 
-enum MedicineStatus {
-  ACTIVE
-  INACTIVE
-}
-
 enum OrderStatus {
-  PLACED
+  PENDING
   PROCESSING
   SHIPPED
   DELIVERED
   CANCELLED
 }
 
-enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
-  REFUNDED
-}
-
 enum PaymentMethod {
   STRIPE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }

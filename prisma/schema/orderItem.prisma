@@ -1,13 +1,22 @@
 model OrderItem {
-  id          String @id @default(uuid())
 
-  orderId     String
-  order       Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id String @id @default(uuid())
+
+  orderId String
 
   medicineId String
-  medicine   Medicine @relation(fields: [medicineId], references: [id], onDelete: Restrict)
 
-  quantity    Int
+  sellerId String
 
-  price       Float
+  quantity Int
+
+  price Float
+
+  order Order @relation(fields:[orderId], references:[id])
+
+  medicine Medicine @relation(fields:[medicineId], references:[id])
+
+  seller User @relation(fields:[sellerId], references:[id])
+
+  @@map("OrderItems")
 }
