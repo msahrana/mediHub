@@ -153,7 +153,7 @@ const refreshTokenIntoDB = async (refreshToken: string) => {
 };
 
 const getMyProfileIntoDB = async (userId: string) => {
-    const userProfile = await prisma.user.findFirstOrThrow({
+    const userProfile = await prisma.user.findUniqueOrThrow({
         where: { id: userId },
         omit: {
             password: true,

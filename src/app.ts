@@ -1,11 +1,11 @@
+import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { authRoute } from './modules/auth/auth.route';
+import { notFound } from './middleware/notFound';
+import cookieParser from 'cookie-parser';
 import { Application } from 'express';
 import express from 'express';
-import cors from 'cors';
 import config from './config';
-import cookieParser from 'cookie-parser';
-import { userRoute } from './modules/auth/auth.route';
-import { notFound } from './middleware/notFound';
-import { globalErrorHandler } from './middleware/globalErrorHandler';
+import cors from 'cors';
 
 const app: Application = express();
 
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     res.send('Dear Customer, Welcome Our MediHub Medicine Store!');
 });
 
-app.use('/api/auth', userRoute);
+app.use('/api/auth', authRoute);
 
 app.use(notFound);
 app.use(globalErrorHandler);
