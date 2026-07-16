@@ -7,6 +7,7 @@ import express from 'express';
 import config from './config';
 import cors from 'cors';
 import { categoryRoute } from './modules/categories/category.route';
+import { medicineRoute } from './modules/medicines/medicine.route';
 
 const app: Application = express();
 
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoute);
 app.use('/api/category', categoryRoute);
+app.use('/api/seller', medicineRoute);
 
 app.use(notFound);
 app.use(globalErrorHandler);
