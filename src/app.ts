@@ -6,6 +6,7 @@ import { Application } from 'express';
 import express from 'express';
 import config from './config';
 import cors from 'cors';
+import { categoryRoute } from './modules/categories/category.route';
 
 const app: Application = express();
 
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoute);
+app.use('/api/category', categoryRoute);
 
 app.use(notFound);
 app.use(globalErrorHandler);
