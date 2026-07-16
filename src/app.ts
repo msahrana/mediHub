@@ -1,13 +1,14 @@
-import { globalErrorHandler } from './middleware/globalErrorHandler';
-import { authRoute } from './modules/auth/auth.route';
-import { notFound } from './middleware/notFound';
 import cookieParser from 'cookie-parser';
 import { Application } from 'express';
 import express from 'express';
-import config from './config';
+
 import cors from 'cors';
-import { categoryRoute } from './modules/categories/category.route';
-import { medicineRoute } from './modules/medicines/medicine.route';
+import config from './config/index.js';
+import { authRoute } from './modules/auth/auth.route.js';
+import { categoryRoute } from './modules/categories/category.route.js';
+import { medicineRoute } from './modules/medicine/medicine.route.js';
+import { notFound } from './middleware/notFound.js';
+import { globalErrorHandler } from './middleware/globalErrorHandler.js';
 
 const app: Application = express();
 
