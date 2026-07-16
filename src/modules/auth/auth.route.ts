@@ -14,7 +14,15 @@ router.get(
     authController.getMyProfile,
 );
 router.get('/', auth(Role.ADMIN), authController.getAllUsers);
-router.put('/my-profile', authController.updateMyProfile);
-router.post('/change-password', authController.changePassword);
+router.put(
+    '/my-profile',
+    auth(Role.ADMIN, Role.CUSTOMER, Role.SELLER),
+    authController.updateMyProfile,
+);
+router.patch(
+    '/change-password',
+    auth(Role.ADMIN, Role.CUSTOMER, Role.SELLER),
+    authController.changePassword,
+);
 
 export const authRoute = router;

@@ -1,4 +1,4 @@
-import { ILoginUser, IRegisterUser } from './auth.interface';
+import { IChangePassword, ILoginUser, IRegisterUser } from './auth.interface';
 import { JwtPayload, SignOptions } from 'jsonwebtoken';
 import { Role } from '../../../generated/prisma/enums';
 import { jwtUtils } from '../../utils/jwt';
@@ -166,11 +166,129 @@ const getMyProfileIntoDB = async (userId: string) => {
     return userProfile;
 };
 
-const getAllUsersIntoDB = async () => {};
+const getAllUsersIntoDB = async () => {
+    const result = await prisma.user.findMany({
+        omit: {
+            password: true,
+        },
+        include: {
+            profile: true,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+    });
 
-const updateMyProfileIntoDB = async () => {};
+    return result;
+};
 
-const changePasswordIntoDB = async () => {};
+const updateMyProfileIntoDB = async (userId: string, payload: any) => {
+    const { name, email, profile } = payload;
+
+    const updatedUser = await prisma.user.update({
+        where: {
+            id: userId,
+        },
+        data: {
+            ...(name && { name }),
+            ...(email && { email }),
+
+            profile: {
+                update: {
+                    ...(profile?.fullName && {
+                        fullName: profile.fullName,
+                    }),
+                    ...(profile?.phone && {
+                        phone: profile.phone,
+                    }),
+                    ...(profile?.address && {
+                        address: profile.address,
+                    }),
+                    ...(profile?.city && {
+                        city: profile.city,
+                    }),
+                    ...(profile?.country && {
+                        country: profile.country,
+                    }),
+                    ...(profile?.image && {
+                        image: profile.image,
+                    }),
+                },
+            },
+        },
+        omit: {
+            password: true,
+        },
+        include: {
+            profile: true,
+        },
+    });
+
+    return updatedUser;
+};
+
+const changePasswordIntoDB = async (
+    userId: string,
+    payload: IChangePassword,
+) => {
+    const { oldPassword, newPassword } = payload;
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+    });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    // Verify old password
+    const isOldPasswordMatched = await bcrypt.compare(
+        oldPassword,
+        user.password,
+    );
+
+    if (!isOldPasswordMatched) {
+        throw new Error('Old password is incorrect.');
+    }
+
+    // Password length validation
+    if (newPassword.length < 8) {
+        throw new Error('Password must be at least 8 characters long.');
+    }
+
+    // Prevent using previous password again
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+
+    if (isSamePassword) {
+        throw new Error(
+            'New password must be different from the current password.',
+        );
+    }
+
+    const hashedPassword = await bcrypt.hash(
+        newPassword,
+        Number(config.BCRYPT_SALT_ROUNDS),
+    );
+
+    const updatedUser = await prisma.user.update({
+        where: {
+            id: userId,
+        },
+
+        data: {
+            password: hashedPassword,
+        },
+        omit: {
+            password: true,
+        },
+        include: {
+            profile: true,
+        },
+    });
+    return updatedUser;
+};
 
 export const authService = {
     registerUserIntoDB,

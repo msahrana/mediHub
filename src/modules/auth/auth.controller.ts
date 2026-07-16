@@ -86,11 +86,53 @@ const getMyProfile = catchAsync(
     },
 );
 
-const getAllUsers = catchAsync(async () => {});
+const getAllUsers = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const result = await authService.getAllUsersIntoDB();
 
-const updateMyProfile = catchAsync(async () => {});
+        sendResponse(res, {
+            success: true,
+            statusCode: HttpStatus.OK,
+            message: 'All Users retrieved successfully!',
+            data: result,
+        });
+    },
+);
 
-const changePassword = catchAsync(async () => {});
+const updateMyProfile = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const userId = req?.user?.id as string;
+        const payload = req.body;
+
+        const updatedProfile = await authService.updateMyProfileIntoDB(
+            userId,
+            payload,
+        );
+
+        sendResponse(res, {
+            success: true,
+            statusCode: HttpStatus.OK,
+            message: 'User update successfully!',
+            data: { updatedProfile },
+        });
+    },
+);
+
+const changePassword = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const userId = req.user?.id as string;
+        const payload = req.body;
+
+        const user = await authService.changePasswordIntoDB(userId, payload);
+
+        sendResponse(res, {
+            success: true,
+            statusCode: HttpStatus.OK,
+            message: 'Password changed successfully.',
+            data: user,
+        });
+    },
+);
 
 export const authController = {
     registerUser,
