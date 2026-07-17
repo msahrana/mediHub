@@ -274,11 +274,16 @@ const getMyPaymentHistoryIntoDB = async (userId: string) => {
             order: {
                 include: {
                     items: {
-                        select: {
-                            id: true,
-                            title: true,
-                            location: true,
-                            rent: true,
+                        include: {
+                            medicine: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    manufacturer: true,
+                                    image: true,
+                                    price: true,
+                                },
+                            },
                         },
                     },
                 },
@@ -288,6 +293,7 @@ const getMyPaymentHistoryIntoDB = async (userId: string) => {
             createdAt: 'desc',
         },
     });
+
     return payments;
 };
 
@@ -311,12 +317,25 @@ const getSinglePaymentDataIntoDB = async (
             order: {
                 include: {
                     items: {
-                        select: {
-                            id: true,
-                            title: true,
-                            location: true,
-                            rent: true,
-                            medicine: true,
+                        include: {
+                            medicine: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    description: true,
+                                    manufacturer: true,
+                                    price: true,
+                                    stock: true,
+                                    image: true,
+                                },
+                            },
+                            seller: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true,
+                                },
+                            },
                         },
                     },
                 },
@@ -324,6 +343,7 @@ const getSinglePaymentDataIntoDB = async (
         },
     });
 
+    // Only the owner or an admin can view the payment
     if (role !== Role.ADMIN && payment.userId !== userId) {
         throw new Error('You are not authorized to view this payment.');
     }
