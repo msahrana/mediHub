@@ -266,7 +266,7 @@ const deleteMedicineIntoDB = async (sellerId: string, medicineId: string) => {
     return null;
 };
 
-export const medicineService = {
+export const sellerManagementService = {
     createMedicineIntoDB,
     getAllMedicinesFromDB,
     getSingleMedicineFromDB,

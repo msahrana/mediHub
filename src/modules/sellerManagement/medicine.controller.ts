@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync.js';
-import { medicineService } from './medicine.service.js';
+import { sellerManagementService } from './medicine.service.js';
 import { sendResponse } from '../../utils/sendResponse.js';
 
 const createMedicine = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         const sellerId = req.user?.id;
 
-        const result = await medicineService.createMedicineIntoDB(
+        const result = await sellerManagementService.createMedicineIntoDB(
             sellerId as string,
             req.body,
         );
@@ -23,7 +23,9 @@ const createMedicine = catchAsync(
 );
 
 const getAllMedicines = catchAsync(async (req, res) => {
-    const result = await medicineService.getAllMedicinesFromDB(req.query);
+    const result = await sellerManagementService.getAllMedicinesFromDB(
+        req.query,
+    );
 
     sendResponse(res, {
         success: true,
@@ -35,7 +37,7 @@ const getAllMedicines = catchAsync(async (req, res) => {
 });
 
 const getSingleMedicine = catchAsync(async (req, res) => {
-    const result = await medicineService.getSingleMedicineFromDB(
+    const result = await sellerManagementService.getSingleMedicineFromDB(
         req.params.id as string,
     );
 
@@ -50,7 +52,7 @@ const getSingleMedicine = catchAsync(async (req, res) => {
 const updateMedicine = catchAsync(async (req, res) => {
     const sellerId = req.user?.id;
 
-    const result = await medicineService.updateMedicineIntoDB(
+    const result = await sellerManagementService.updateMedicineIntoDB(
         sellerId as string,
         req.params.id as string,
         req.body,
@@ -67,7 +69,7 @@ const updateMedicine = catchAsync(async (req, res) => {
 const deleteMedicine = catchAsync(async (req, res) => {
     const sellerId = req.user?.id as string;
 
-    await medicineService.deleteMedicineIntoDB(
+    await sellerManagementService.deleteMedicineIntoDB(
         sellerId,
         req.params.id as string,
     );
@@ -80,7 +82,7 @@ const deleteMedicine = catchAsync(async (req, res) => {
     });
 });
 
-export const medicineController = {
+export const sellerManagementController = {
     createMedicine,
     getAllMedicines,
     getSingleMedicine,

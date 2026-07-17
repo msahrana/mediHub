@@ -1,14 +1,14 @@
 import cookieParser from 'cookie-parser';
 import { Application } from 'express';
 import express from 'express';
-
 import cors from 'cors';
 import config from './config/index.js';
 import { authRoute } from './modules/auth/auth.route.js';
 import { categoryRoute } from './modules/categories/category.route.js';
-import { medicineRoute } from './modules/medicine/medicine.route.js';
+import { sellerManagementRoute } from './modules/sellerManagement/medicine.route.js';
 import { notFound } from './middleware/notFound.js';
 import { globalErrorHandler } from './middleware/globalErrorHandler.js';
+import { medicinesRoute } from './modules/medicines/medicines.route.js';
 
 const app: Application = express();
 
@@ -29,7 +29,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoute);
 app.use('/api/category', categoryRoute);
-app.use('/api/seller', medicineRoute);
+app.use('/api/seller', sellerManagementRoute);
+app.use('/api', medicinesRoute);
 
 app.use(notFound);
 app.use(globalErrorHandler);
