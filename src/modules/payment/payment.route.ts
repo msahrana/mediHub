@@ -10,8 +10,12 @@ router.post(
     auth(Role.CUSTOMER),
     paymentController.createCheckoutSession,
 );
-router.post('webhook', paymentController.handleWebhook);
+router.post('/webhook', paymentController.handleWebhook);
 router.get('/', auth(Role.CUSTOMER), paymentController.getMyPaymentHistory);
-router.get('/:id', auth(Role.CUSTOMER), paymentController.getSinglePaymentData);
+router.get(
+    '/:id',
+    auth(Role.CUSTOMER, Role.ADMIN),
+    paymentController.getSinglePaymentData,
+);
 
 export const paymentRoute = router;
