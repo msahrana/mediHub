@@ -10,6 +10,7 @@ import { notFound } from './middleware/notFound.js';
 import { globalErrorHandler } from './middleware/globalErrorHandler.js';
 import { medicinesRoute } from './modules/medicines/medicines.route.js';
 import { orderRoute } from './modules/orders/order.route.js';
+import { reviewRoute } from './modules/review/review.route.js';
 
 const app: Application = express();
 
@@ -33,6 +34,7 @@ app.use('/api/category', categoryRoute);
 app.use('/api/seller', sellerManagementRoute);
 app.use('/api', medicinesRoute);
 app.use('/api/orders', orderRoute);
+app.use('/api/reviews', reviewRoute);
 
 app.use(notFound);
 app.use(globalErrorHandler);
