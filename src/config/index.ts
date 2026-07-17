@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 dotenv.config({ path: path.join(process.cwd(), '.env') });
- export default {
+export default {
     PORT: process.env.PORT,
     DATABASE_URL: process.env.DATABASE_URL,
     APP_URL: process.env.APP_URL,
@@ -11,4 +11,8 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
     JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN!,
     JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN!,
- }
+    STRIPE_PRODUCT_PRICE_ID: process.env.STRIPE_PRODUCT_PRICE_ID!,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY!,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET!,
+    STRIPE_SIGNING_SECRET: process.env.STRIPE_SIGNING_SECRET!,
+};
