@@ -1,7 +1,7 @@
+import { categoryController } from './category.controller.js';
+import { Role } from '../../../generated/prisma/enums.js';
+import { auth } from '../../middleware/auth.js';
 import { Router } from 'express';
-import { auth } from '../../middleware/auth';
-import { Role } from '../../../generated/prisma/enums';
-import { categoryController } from './category.controller';
 
 const router = Router();
 

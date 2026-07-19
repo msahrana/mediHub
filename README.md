@@ -8,7 +8,7 @@ MediHub is a full-stack e-commerce platform for purchasing Over-the-Counter (OTC
 
 # 🌐 Live Demo
 
-<!-- ppp -->
+https://medi-hub-gilt.vercel.app
 
 ### Frontend
 

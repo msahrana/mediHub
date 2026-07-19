@@ -1,10 +1,14 @@
-import { IChangePassword, ILoginUser, IRegisterUser } from './auth.interface';
 import { JwtPayload, SignOptions } from 'jsonwebtoken';
-import { Role } from '../../../generated/prisma/enums';
-import { jwtUtils } from '../../utils/jwt';
-import { prisma } from '../../lib/prisma';
-import config from '../../config';
 import bcrypt from 'bcryptjs';
+import {
+    IChangePassword,
+    ILoginUser,
+    IRegisterUser,
+} from './auth.interface.js';
+import { prisma } from '../../lib/prisma.js';
+import { Role } from '../../../generated/prisma/enums.js';
+import config from '../../config/index.js';
+import { jwtUtils } from '../../utils/jwt.js';
 
 const registerUserIntoDB = async (payload: IRegisterUser) => {
     // Get user field from payload

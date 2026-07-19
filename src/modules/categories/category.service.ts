@@ -1,6 +1,6 @@
-import httpStatus from 'http-status';
-import { ICategory } from './category.interface';
-import { prisma } from '../../lib/prisma';
+import { ICategory } from "./category.interface.js";
+import { prisma } from "../../lib/prisma.js";
+
 
 const createCategoryIntoDB = async (payload: ICategory) => {
     const isCategoryExist = await prisma.category.findUnique({
