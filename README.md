@@ -352,6 +352,10 @@ npm run dev
 
 ## ERD Relations Link:
 
-<!-- ppp -->
+https://drawsql.app/teams/md-sayed/diagrams/medihub
 
-## ERD Relations Image:
+## ERD Design Screenshot:
+
+<p align="center">
+  <img src="./assets/images/MediHub.PNG" alt="ERD Diagram" width="100%">
+</p>
